@@ -19,8 +19,7 @@
   under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -31,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.6</version>
     <packaging>bundle</packaging>
     <name>Apache Tika OSGi bundle</name>
     <description>
@@ -332,7 +331,8 @@
         <url>https://github.com/hlavki/tika-bundle-fork</url>
         <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
         <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
-    </scm>
+      <tag>tika-bundle-fork-1.6</tag>
+  </scm>
     <distributionManagement>
         <repository>
             <id>datalan-releases</id>
