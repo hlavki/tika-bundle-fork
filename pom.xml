@@ -31,6 +31,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
+    <version>1.6-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Apache Tika OSGi bundle</name>
     <description>
@@ -49,12 +50,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>${project.version}</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>${project.version}</version>
+            <version>1.6</version>
             <scope>provided</scope>
         </dependency>
 
