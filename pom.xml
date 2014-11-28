@@ -325,10 +325,21 @@
         <url>http://www.apache.org</url>
     </organization>
     <scm>
-        <url>http://svn.apache.org/viewvc/tika/trunk/tika-bundle</url>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tika/trunk/tika-bundle</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tika/trunk/tika-bundle</developerConnection>
+        <url>https://github.com/hlavki/tika-bundle-fork</url>
+        <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
     </scm>
+    <distributionManagement>
+        <repository>
+            <id>datalan-releases</id>
+            <name>Datalan's distribution repository</name>
+            <url>http://maven.datalan.sk/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>datalan-snapshots</id>
+            <name>Datalan's snapshots repository</name>
+            <url>http://maven.datalan.sk/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <issueManagement>
         <system>JIRA</system>
         <url>https://issues.apache.org/jira/browse/TIKA</url>
