@@ -237,6 +237,7 @@ public class BundleIT {
             super();
         }
 
+        @Override
         public <T> List<String> identifyStaticServiceProviders(Class<T> iface) {
             return super.identifyStaticServiceProviders(iface);
         }
