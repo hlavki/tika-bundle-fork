@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1</version>
     <packaging>bundle</packaging>
     <name>Apache Tika OSGi Fork bundle</name>
     <description>
@@ -331,7 +331,7 @@
         <url>https://github.com/hlavki/tika-bundle-fork</url>
         <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
         <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>tika-bundle-fork-1.6.1</tag>
   </scm>
     <distributionManagement>
         <repository>
