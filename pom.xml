@@ -32,7 +32,7 @@
     <artifactId>tika-bundle-fork</artifactId>
     <version>1.7-SNAPSHOT</version>
     <packaging>bundle</packaging>
-    <name>Apache Tika OSGi bundle</name>
+    <name>Apache Tika OSGi Fork bundle</name>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
         upstream dependencies that aren't OSGI bundles by themselves. This
