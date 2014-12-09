@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.6.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Apache Tika OSGi Fork bundle</name>
     <description>
