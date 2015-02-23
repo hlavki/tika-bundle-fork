@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.7.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -140,7 +140,7 @@
                             org.apache.tika.parser.*
                         </Export-Package>
                         <Import-Package>
-                            !org.junit, !org.apache.log,
+                            !org.junit.*, !org.apache.log,
                             *,
                             org.apache.tika.fork,
                             android.util;resolution:=optional,
