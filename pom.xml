@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
@@ -49,12 +49,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.6</version>
+            <version>1.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.6</version>
+            <version>1.7</version>
             <scope>provided</scope>
         </dependency>
 
@@ -96,7 +96,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.6.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -180,6 +179,7 @@
                             org.apache.commons.httpclient.protocol;resolution:=optional,
                             org.apache.commons.httpclient.util;resolution:=optional,
                             org.apache.crimson.jaxp;resolution:=optional,
+                            org.apache.jcp.xml.dsig.internal.dom;resolution:=optional,
                             org.apache.tools.ant;resolution:=optional,
                             org.apache.tools.ant.taskdefs;resolution:=optional,
                             org.apache.tools.ant.types;resolution:=optional,
@@ -189,8 +189,18 @@
                             org.apache.xerces.xni.parser;resolution:=optional,
                             org.apache.xml.resolver;resolution:=optional,
                             org.apache.xml.resolver.tools;resolution:=optional,
+                            org.apache.xml.security;resolution:=optional,
+                            org.apache.xml.security.c14n;resolution:=optional,
+                            org.apache.xml.security.utils;resolution:=optional,
                             org.apache.xmlbeans.impl.xpath.saxon;resolution:=optional,
                             org.apache.xmlbeans.impl.xquery.saxon;resolution:=optional,
+                            org.bouncycastle.cert;resolution:=optional,
+                            org.bouncycastle.cert.jcajce;resolution:=optional,
+                            org.bouncycastle.cert.ocsp;resolution:=optional,
+                            org.bouncycastle.cms.bc;resolution:=optional,
+                            org.bouncycastle.operator;resolution:=optional,
+                            org.bouncycastle.operator.bc;resolution:=optional,
+                            org.bouncycastle.tsp;resolution:=optional,
                             org.cyberneko.html.xercesbridge;resolution:=optional,
                             org.gjt.xpp;resolution:=optional,
                             org.jaxen;resolution:=optional,
@@ -205,6 +215,7 @@
                             org.osgi.framework;resolution:=optional,
                             org.quartz;resolution:=optional,
                             org.quartz.impl;resolution:=optional,
+                            org.slf4j;resolution:=optional
                             org.w3c.dom;resolution:=optional,
                             org.relaxng.datatype;resolution:=optional,
                             org.xml.sax;resolution:=optional,
@@ -331,8 +342,8 @@
         <url>https://github.com/hlavki/tika-bundle-fork</url>
         <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
         <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <distributionManagement>
         <repository>
             <id>datalan-releases</id>
