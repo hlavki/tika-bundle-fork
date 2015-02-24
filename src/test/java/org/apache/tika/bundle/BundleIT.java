@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.ops4j.pax.exam.CoreOptions.bundle;
-import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 
 import java.io.ByteArrayInputStream;
 import java.io.BufferedInputStream;
@@ -35,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 
 import org.apache.tika.Tika;
 import org.apache.tika.config.ServiceLoader;
@@ -53,33 +52,44 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ops4j.pax.exam.CoreOptions;
+import org.ops4j.pax.exam.Configuration;
+import static org.ops4j.pax.exam.CoreOptions.bundle;
+import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+import static org.ops4j.pax.exam.CoreOptions.options;
 import org.ops4j.pax.exam.Option;
-import org.ops4j.pax.exam.junit.Configuration;
-import org.ops4j.pax.exam.junit.JUnit4TestRunner;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.xml.sax.ContentHandler;
 
-@RunWith(JUnit4TestRunner.class)
+@RunWith(PaxExam.class)
+@ExamReactorStrategy(PerClass.class)
 public class BundleIT {
 
     private final File TARGET = new File("target");
 
+    @Inject
+    private Parser defaultParser;
+    @Inject
+    private Detector contentTypeDetector;
+    @Inject
+    private BundleContext bc;
+
     @Configuration
     public Option[] configuration() throws IOException, URISyntaxException {
         File base = new File(TARGET, "test-bundles");
-        return CoreOptions.options(
+        return options(
                 junitBundles(),
                 bundle(new File(base, "tika-core.jar").toURI().toURL().toString()),
                 bundle(new File(base, "tika-bundle-fork.jar").toURI().toURL().toString()));
     }
 
     @Test
-    public void testBundleLoaded(BundleContext bc) throws Exception {
+    public void testBundleLoaded() throws Exception {
         boolean hasCore = false, hasBundle = false;
         for (Bundle b : bc.getBundles()) {
-            System.out.println(b.getSymbolicName());
             if ("org.apache.tika.core".equals(b.getSymbolicName())) {
                 hasCore = true;
                 assertEquals("Core not activated", Bundle.ACTIVE, b.getState());
@@ -94,7 +104,7 @@ public class BundleIT {
     }
 
     @Test
-    public void testBundleDetection(BundleContext bc) throws Exception {
+    public void testBundleDetection() throws Exception {
         Tika tika = new Tika();
 
         // Simple type detection
@@ -103,18 +113,17 @@ public class BundleIT {
     }
 
     @Test
-    public void testForkParser(BundleContext bc) throws Exception {
+    public void testForkParser() throws Exception {
         String data = "<!DOCTYPE html>\n<html><body><p>test <span>content</span></p></body></html>";
         InputStream stream = new ByteArrayInputStream(data.getBytes("UTF-8"));
         Writer writer = new StringWriter();
         ContentHandler contentHandler = new BodyContentHandler(writer);
         Metadata metadata = new Metadata();
-        ParseContext parseCtx = getOSGIContext(bc);
-        MediaType type = parseCtx.get(Detector.class).detect(stream, metadata);
+        MediaType type = contentTypeDetector.detect(stream, metadata);
         assertEquals(type.toString(), "text/html");
         metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), parseCtx.get(CompositeParser.class));
-        parser.parse(stream, contentHandler, metadata, parseCtx);
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+        parser.parse(stream, contentHandler, metadata, getParseContext());
         writer.flush();
         String content = writer.toString();
         assertTrue(content.length() > 0);
@@ -122,36 +131,50 @@ public class BundleIT {
     }
 
     @Test
-    public void testForkParserPdf(BundleContext bc) throws Exception {
+    public void testForkParserPdf() throws Exception {
         InputStream in = BundleIT.class.getResourceAsStream("/test-documents/testPDF.pdf");
         InputStream stream = new BufferedInputStream(in);
         Writer writer = new StringWriter();
         ContentHandler contentHandler = new BodyContentHandler(writer);
         Metadata metadata = new Metadata();
-        ParseContext parseCtx = getOSGIContext(bc);
-        MediaType type = parseCtx.get(Detector.class).detect(stream, metadata);
+        MediaType type = contentTypeDetector.detect(stream, metadata);
         assertEquals(type.toString(), "application/pdf");
         metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), parseCtx.get(CompositeParser.class));
-        parser.parse(stream, contentHandler, metadata, parseCtx);
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+        parser.parse(stream, contentHandler, metadata, getParseContext());
         writer.flush();
         String content = writer.toString();
         assertTrue(content.length() > 0);
     }
 
-    private ParseContext getOSGIContext(BundleContext bc) {
-        CompositeParser defaultParser = (CompositeParser) bc.getService(bc.getServiceReference(Parser.class));
-        Detector contentTypeDetector = (Detector) bc.getService(bc.getServiceReference(Detector.class));
+    @Test
+    public void testForkParserWord() throws Exception {
+        InputStream in = BundleIT.class.getResourceAsStream("/test-documents/testWORD.doc");
+        InputStream stream = new BufferedInputStream(in);
+        Writer writer = new StringWriter();
+        ContentHandler contentHandler = new BodyContentHandler(writer);
+        Metadata metadata = new Metadata();
+        MediaType type = contentTypeDetector.detect(stream, metadata);
+        assertEquals(type.toString(), "application/x-tika-msoffice");
+        metadata.add(Metadata.CONTENT_TYPE, type.toString());
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+        parser.parse(stream, contentHandler, metadata, getParseContext());
+        writer.flush();
+        String content = writer.toString();
+        assertTrue(content.length() > 0);
+    }
+
+    private ParseContext getParseContext() {
         ParseContext parseCtx = new ParseContext();
         parseCtx.set(Detector.class, contentTypeDetector);
         parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
-        parseCtx.set(CompositeParser.class, defaultParser);
+        parseCtx.set(CompositeParser.class, (CompositeParser) defaultParser);
         return parseCtx;
     }
 
     @Ignore // TODO Fix this test
     @Test
-    public void testBundleSimpleText(BundleContext bc) throws Exception {
+    public void testBundleSimpleText() throws Exception {
         Tika tika = new Tika();
 
         // Simple text extraction
@@ -161,7 +184,7 @@ public class BundleIT {
 
     @Ignore // TODO Fix this test
     @Test
-    public void testBundleDetectors(BundleContext bc) throws Exception {
+    public void testBundleDetectors() throws Exception {
         // Get the raw detectors list
         // TODO Why is this not finding the detector service resource files?
         TestingServiceLoader loader = new TestingServiceLoader();
@@ -189,7 +212,7 @@ public class BundleIT {
     }
 
     @Test
-    public void testBundleParsers(BundleContext bc) throws Exception {
+    public void testBundleParsers() throws Exception {
         TikaConfig tika = new TikaConfig();
 
         // TODO Implement as with Detectors
@@ -197,7 +220,7 @@ public class BundleIT {
 
     @Ignore // TODO Fix this test
     @Test
-    public void testTikaBundle(BundleContext bc) throws Exception {
+    public void testTikaBundle() throws Exception {
         Tika tika = new Tika();
 
         // Package extraction
