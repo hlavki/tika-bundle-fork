@@ -44,6 +44,8 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.fork.ForkParser;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
+import org.apache.tika.mime.MimeTypes;
+import org.apache.tika.parser.CompositeParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.internal.Activator;
@@ -102,18 +104,16 @@ public class BundleIT {
 
     @Test
     public void testForkParser(BundleContext bc) throws Exception {
-        Parser defaultParser = (Parser) bc.getService(bc.getServiceReference(Parser.class));
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
         String data = "<!DOCTYPE html>\n<html><body><p>test <span>content</span></p></body></html>";
         InputStream stream = new ByteArrayInputStream(data.getBytes("UTF-8"));
         Writer writer = new StringWriter();
         ContentHandler contentHandler = new BodyContentHandler(writer);
         Metadata metadata = new Metadata();
-        Detector contentTypeDetector = (Detector) bc.getService(bc.getServiceReference(Detector.class));
-        MediaType type = contentTypeDetector.detect(stream, metadata);
+        ParseContext parseCtx = getOSGIContext(bc);
+        MediaType type = parseCtx.get(Detector.class).detect(stream, metadata);
         assertEquals(type.toString(), "text/html");
         metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ParseContext parseCtx = new ParseContext();
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), parseCtx.get(CompositeParser.class));
         parser.parse(stream, contentHandler, metadata, parseCtx);
         writer.flush();
         String content = writer.toString();
@@ -123,22 +123,30 @@ public class BundleIT {
 
     @Test
     public void testForkParserPdf(BundleContext bc) throws Exception {
-        Parser defaultParser = (Parser) bc.getService(bc.getServiceReference(Parser.class));
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
         InputStream in = BundleIT.class.getResourceAsStream("/test-documents/testPDF.pdf");
         InputStream stream = new BufferedInputStream(in);
         Writer writer = new StringWriter();
         ContentHandler contentHandler = new BodyContentHandler(writer);
         Metadata metadata = new Metadata();
-        Detector contentTypeDetector = (Detector) bc.getService(bc.getServiceReference(Detector.class));
-        MediaType type = contentTypeDetector.detect(stream, metadata);
+        ParseContext parseCtx = getOSGIContext(bc);
+        MediaType type = parseCtx.get(Detector.class).detect(stream, metadata);
         assertEquals(type.toString(), "application/pdf");
         metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ParseContext parseCtx = new ParseContext();
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), parseCtx.get(CompositeParser.class));
         parser.parse(stream, contentHandler, metadata, parseCtx);
         writer.flush();
         String content = writer.toString();
         assertTrue(content.length() > 0);
+    }
+
+    private ParseContext getOSGIContext(BundleContext bc) {
+        CompositeParser defaultParser = (CompositeParser) bc.getService(bc.getServiceReference(Parser.class));
+        Detector contentTypeDetector = (Detector) bc.getService(bc.getServiceReference(Detector.class));
+        ParseContext parseCtx = new ParseContext();
+        parseCtx.set(Detector.class, contentTypeDetector);
+        parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
+        parseCtx.set(CompositeParser.class, defaultParser);
+        return parseCtx;
     }
 
     @Ignore // TODO Fix this test
