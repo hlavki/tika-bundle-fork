@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>1.7.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -142,7 +142,23 @@
                         <Import-Package>
                             !org.junit.*, !org.apache.log,
                             *,
+                            org.apache.tika,
+                            org.apache.tika.config,
+                            org.apache.tika.detect,
+                            org.apache.tika.embedder,
+                            org.apache.tika.exception,
+                            org.apache.tika.extractor,
                             org.apache.tika.fork,
+                            org.apache.tika.io,
+                            org.apache.tika.language,
+                            org.apache.tika.language.translate,
+                            org.apache.tika.metadata,
+                            org.apache.tika.mime,
+                            org.apache.tika.parser,
+                            org.apache.tika.parser.external,
+                            org.apache.tika.sax,
+                            org.apache.tika.sax.xpath,
+                            org.apache.tika.utils,
                             android.util;resolution:=optional,
                             com.adobe.xmp;resolution:=optional,
                             com.adobe.xmp.properties;resolution:=optional,
