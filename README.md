@@ -10,3 +10,28 @@ As ForkParser doesn't work with official bundle [tika-bundle](http://repo1.maven
 
 ### Maven repository
 There is no public maven repository with this bundle. You have to build and deploy it to your maven repository.
+
+### Example Usage
+``` java
+    @Inject
+    private Parser defaultParser;
+    @Inject
+    private Detector contentTypeDetector;
+
+    public void parse(InputStream in) {
+        InputStream stream = new BufferedInputStream(in);
+        Writer writer = new StringWriter();
+        ContentHandler contentHandler = new BodyContentHandler(writer);
+        Metadata metadata = new Metadata();
+        MediaType type = contentTypeDetector.detect(stream, metadata);
+        metadata.add(Metadata.CONTENT_TYPE, type.toString());
+
+        ParseContext parseCtx = new ParseContext();
+        parseCtx.set(Detector.class, contentTypeDetector);
+        parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
+        parseCtx.set(CompositeParser.class, (CompositeParser) defaultParser);
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+
+        parser.parse(stream, contentHandler, metadata, parseCtx);
+    }
+```
