@@ -13,25 +13,25 @@ There is no public maven repository with this bundle. You have to build and depl
 
 ### Example Usage
 ``` java
-    @Inject
-    private Parser defaultParser;
-    @Inject
-    private Detector contentTypeDetector;
+@Inject
+private Parser defaultParser;
+@Inject
+private Detector contentTypeDetector;
 
-    public void parse(InputStream in) {
-        InputStream stream = new BufferedInputStream(in);
-        Writer writer = new StringWriter();
-        ContentHandler contentHandler = new BodyContentHandler(writer);
-        Metadata metadata = new Metadata();
-        MediaType type = contentTypeDetector.detect(stream, metadata);
-        metadata.add(Metadata.CONTENT_TYPE, type.toString());
+public void parse(InputStream in) {
+    InputStream stream = new BufferedInputStream(in);
+    Writer writer = new StringWriter();
+    ContentHandler contentHandler = new BodyContentHandler(writer);
+    Metadata metadata = new Metadata();
+    MediaType type = contentTypeDetector.detect(stream, metadata);
+    metadata.add(Metadata.CONTENT_TYPE, type.toString());
 
-        ParseContext parseCtx = new ParseContext();
-        parseCtx.set(Detector.class, contentTypeDetector);
-        parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
-        parseCtx.set(CompositeParser.class, (CompositeParser) defaultParser);
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+    ParseContext parseCtx = new ParseContext();
+    parseCtx.set(Detector.class, contentTypeDetector);
+    parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
+    parseCtx.set(CompositeParser.class, (CompositeParser) defaultParser);
+    ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
 
-        parser.parse(stream, contentHandler, metadata, parseCtx);
-    }
+    parser.parse(stream, contentHandler, metadata, parseCtx);
+}
 ```
