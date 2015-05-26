@@ -4,8 +4,8 @@ As ForkParser doesn't work with official bundle [tika-bundle](http://repo1.maven
 
 ### Example usage in [Apache Karaf](http://karaf.apache.org/)
     <feature name="apache-tika" version="1.7">
-        <bundle>mvn:org.apache.tika/tika-core/1.7</bundle>
-        <bundle>mvn:org.apache.tika/tika-bundle-fork/1.7.2</bundle>
+        <bundle>mvn:org.apache.tika/tika-core/1.8</bundle>
+        <bundle>mvn:org.apache.tika/tika-bundle-fork/1.8.0</bundle>
     </feature>
 
 ### Maven repository
