@@ -164,24 +164,6 @@ public class BundleIT {
         assertTrue(content.length() > 0);
     }
 
-    @Test
-    public void testForkParserWord2() throws Exception {
-        InputStream in = BundleIT.class.getResourceAsStream("/test-documents/dotaznik_dba_nova_schema_Registratura_TriediaciModul.doc");
-        InputStream stream = new BufferedInputStream(in);
-        Writer writer = new StringWriter();
-        ContentHandler contentHandler = new BodyContentHandler(writer);
-        Metadata metadata = new Metadata();
-        MediaType type = contentTypeDetector.detect(stream, metadata);
-        assertEquals(type.toString(), "application/x-tika-msoffice");
-        metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
-        parser.parse(stream, contentHandler, metadata, getParseContext());
-        writer.flush();
-        String content = writer.toString();
-        System.out.println(content);
-        assertTrue(content.length() > 0);
-    }
-
     private ParseContext getParseContext() {
         ParseContext parseCtx = new ParseContext();
         parseCtx.set(Detector.class, contentTypeDetector);
