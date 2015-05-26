@@ -25,12 +25,12 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.7.3-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -48,12 +48,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.7</version>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.7</version>
+            <version>1.8</version>
             <scope>provided</scope>
         </dependency>
 
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-            <version>4.6.0</version>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -129,8 +129,8 @@
                         </Bundle-Activator>
                         <Embed-Dependency>
                             tika-parsers;inline=true,
-                            commons-compress, xz, commons-codec, commons-logging,
-                            pdfbox,fontbox,jempbox,bcmail-jdk15,bcprov-jdk15,
+                            commons-compress, xz, commons-codec, commons-csv, junrar, commons-logging,
+                            pdfbox,fontbox,jempbox,bcmail-jdk15on,bcprov-jdk15on,bcpkix-jdk15on,
                             poi,poi-scratchpad,poi-ooxml,poi-ooxml-schemas,
                             xmlbeans,
                             tagsoup,
@@ -142,7 +142,8 @@
                             boilerpipe, rome,
                             apache-mime4j-core, apache-mime4j-dom,
                             jhighlight, java-libpst,
-                            netcdf, jcip-annotations, jmatio
+                            netcdf4, grib, cdm, httpservices, jcip-annotations, 
+                            jmatio, guava
                         </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Bundle-DocURL>${project.url}</Bundle-DocURL>
@@ -205,6 +206,9 @@
                             org.apache.commons.httpclient.params;resolution:=optional,
                             org.apache.commons.httpclient.protocol;resolution:=optional,
                             org.apache.commons.httpclient.util;resolution:=optional,
+                            org.apache.commons.vfs2;resolution:=optional,
+                            org.apache.commons.vfs2.provider;resolution:=optional,
+                            org.apache.commons.vfs2.util;resolution:=optional,
                             org.apache.crimson.jaxp;resolution:=optional,
                             org.apache.jcp.xml.dsig.internal.dom;resolution:=optional,
                             org.apache.tools.ant;resolution:=optional,
@@ -229,6 +233,8 @@
                             org.bouncycastle.operator.bc;resolution:=optional,
                             org.bouncycastle.tsp;resolution:=optional,
                             org.cyberneko.html.xercesbridge;resolution:=optional,
+                            org.etsi.uri.x01903.v14;resolution:=optional,
+                            org.ibex.nestedvm;resolution:=optional,
                             org.gjt.xpp;resolution:=optional,
                             org.jaxen;resolution:=optional,
                             org.jaxen.dom4j;resolution:=optional,
@@ -237,12 +243,16 @@
                             org.jdom;resolution:=optional,
                             org.jdom.input;resolution:=optional,
                             org.jdom.output;resolution:=optional,
+                            org.jdom2;resolution:=optional,
+                            org.jdom2.input;resolution:=optional,
+                            org.jdom2.output;resolution:=optional,
                             org.openxmlformats.schemas.officeDocument.x2006.math;resolution:=optional,
                             org.openxmlformats.schemas.schemaLibrary.x2006.main;resolution:=optional,
                             org.osgi.framework;resolution:=optional,
                             org.quartz;resolution:=optional,
                             org.quartz.impl;resolution:=optional,
-                            org.slf4j;resolution:=optional
+                            org.slf4j;resolution:=optional,
+                            org.sqlite;resolution:=optional,
                             org.w3c.dom;resolution:=optional,
                             org.relaxng.datatype;resolution:=optional,
                             org.xml.sax;resolution:=optional,
@@ -252,6 +262,25 @@
                             schemasMicrosoftComOfficePowerpoint;resolution:=optional,
                             schemasMicrosoftComOfficeWord;resolution:=optional,
                             sun.misc;resolution:=optional,
+                            ucar.units;resolution:=optional,
+                            ucar.httpservices;resolution:=optional,
+                            ucar.nc2.util;resolution:=optional,
+                            ucar.nc2.util.cache;resolution:=optional,
+                            ucar.nc2.dataset;resolution:=optional,
+                            ucar.nc2;resolution:=optional,
+                            ucar.nc2.constants;resolution:=optional,
+                            ucar.nc2.dt;resolution:=optional,
+                            ucar.nc2.dt.grid;resolution:=optional,
+                            ucar.nc2.ft;resolution:=optional,
+                            ucar.nc2.iosp;resolution:=optional,
+                            ucar.nc2.iosp.hdf4;resolution:=optional,
+                            ucar.nc2.ncml;resolution:=optional,
+                            ucar.nc2.stream;resolution:=optional,
+                            ucar.nc2.time;resolution:=optional,
+                            ucar.nc2.units;resolution:=optional,
+                            ucar.nc2.wmo;resolution:=optional,
+                            ucar.nc2.write;resolution:=optional,
+                            ucar.ma2;resolution:=optional,
                             ucar.grib;resolution:=optional,
                             ucar.grib.grib1;resolution:=optional,
                             ucar.grib.grib2;resolution:=optional,
@@ -267,7 +296,56 @@
                             visad.data;resolution:=optional,
                             visad.data.vis5d;resolution:=optional,
                             visad.jmet;resolution:=optional,
-                            visad.util;resolution:=optional
+                            visad.util;resolution:=optional,
+                            colorspace;resolution:=optional,
+                            com.sun.jna;resolution:=optional,
+                            com.sun.jna.ptr;resolution:=optional,
+                            icc;resolution:=optional,
+                            jj2000.j2k.codestream;resolution:=optional,
+                            jj2000.j2k.codestream.reader;resolution:=optional,
+                            jj2000.j2k.decoder;resolution:=optional,
+                            jj2000.j2k.entropy.decoder;resolution:=optional,
+                            jj2000.j2k.fileformat.reader;resolution:=optional,
+                            jj2000.j2k.image;resolution:=optional,
+                            jj2000.j2k.image.invcomptransf;resolution:=optional,
+                            jj2000.j2k.image.output;resolution:=optional,
+                            jj2000.j2k.io;resolution:=optional,
+                            jj2000.j2k.quantization.dequantizer;resolution:=optional,
+                            jj2000.j2k.roi;resolution:=optional,
+                            jj2000.j2k.util;resolution:=optional,
+                            jj2000.j2k.wavelet.synthesis;resolution:=optional,
+                            org.itadaki.bzip2;resolution:=optional,
+                            org.jsoup;resolution:=optional,
+                            org.jsoup.nodes;resolution:=optional,
+                            org.jsoup.select;resolution:=optional,
+                            thredds.featurecollection;resolution:=optional,
+                            thredds.filesystem;resolution:=optional,
+                            thredds.inventory;resolution:=optional,
+                            thredds.inventory.filter;resolution:=optional,
+                            thredds.inventory.partition;resolution:=optional,
+                            com.beust.jcommander;resolution:=optional,
+                            com.google.common.base;resolution:=optional,
+                            com.google.common.math;resolution:=optional,
+                            org.apache.http;resolution:=optional,
+                            org.joda.time;resolution:=optional,
+                            org.joda.time.chrono;resolution:=optional,
+                            org.joda.time.field;resolution:=optional,
+                            org.joda.time.format;resolution:=optional,
+                            sun.reflect.generics.reflectiveObjects;resolution:=optional,
+                            org.apache.http.auth;resolution:=optional,
+                            org.apache.http.client;resolution:=optional,
+                            org.apache.http.client.entity;resolution:=optional,
+                            org.apache.http.client.methods;resolution:=optional,
+                            org.apache.http.conn;resolution:=optional,
+                            org.apache.http.conn.scheme;resolution:=optional,
+                            org.apache.http.cookie;resolution:=optional,
+                            org.apache.http.entity;resolution:=optional,
+                            org.apache.http.impl.client;resolution:=optional,
+                            org.apache.http.impl.conn;resolution:=optional,
+                            org.apache.http.message;resolution:=optional,
+                            org.apache.http.params;resolution:=optional,
+                            org.apache.http.protocol;resolution:=optional,
+                            org.apache.http.util;resolution:=optional
                         </Import-Package>
                     </instructions>
                 </configuration>
