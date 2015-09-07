@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.10-SNAPSHOT</version>
+    <version>1.10.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
