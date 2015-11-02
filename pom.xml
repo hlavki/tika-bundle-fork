@@ -25,12 +25,12 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.10</version>
+        <version>1.11</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.10.1-SNAPSHOT</version>
+    <version>1.11-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -48,12 +48,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.10</version>
+            <version>1.11</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.10</version>
+            <version>1.11</version>
             <scope>provided</scope>
         </dependency>
 
@@ -138,7 +138,7 @@
                             jackcess,
                             commons-lang,              
                             tagsoup,
-                            asm-debug-all,
+                            asm,
                             juniversalchardet,
                             vorbis-java-core, vorbis-java-tika,
                             isoparser, aspectjrt,
@@ -197,6 +197,7 @@
                             edu.wisc.ssec.mcidas;resolution:=optional,
                             edu.wisc.ssec.mcidas.adde;resolution:=optional,
                             javax.activation;resolution:=optional,
+                            javax.annotation;resolution:=optional,
                             javax.mail;resolution:=optional,
                             javax.mail.internet;resolution:=optional,
                             javax.servlet.annotation;resolution:=optional,
@@ -206,6 +207,7 @@
                             javax.xml.stream;version="[1.0,2)";resolution:=optional,
                             javax.xml.stream.events;version="[1.0,2)";resolution:=optional,
                             javax.xml.stream.util;version="[1.0,2)";resolution:=optional,
+                            javax.ws.rs.core;resolution:=optional,
                             net.sf.ehcache;resolution:=optional,
                             nu.xom;resolution:=optional,
                             opendap.dap.http;resolution:=optional,
@@ -214,6 +216,8 @@
                             opennlp.maxent;resolution:=optional,
                             opennlp.tools.namefind;resolution:=optional,
                             net.didion.jwnl;resolution:=optional,
+                            org.apache.cxf.jaxrs.client;resolution:=optional,
+                            org.apache.cxf.jaxrs.ext.multipart;resolution:=optional,
                             org.apache.commons.exec;resolution:=optional,
                             org.apache.commons.io;resolution:=optional,
                             org.apache.commons.httpclient;resolution:=optional,
@@ -266,6 +270,7 @@
                             org.jdom2.input;resolution:=optional,
                             org.jdom2.output;resolution:=optional,
                             org.json.simple;resolution:=optional,
+                            org.json;resolution:=optional,
                             org.openxmlformats.schemas.officeDocument.x2006.math;resolution:=optional,
                             org.openxmlformats.schemas.schemaLibrary.x2006.main;resolution:=optional,
                             org.osgi.framework;resolution:=optional,
