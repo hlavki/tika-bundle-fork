@@ -25,12 +25,12 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.11</version>
+        <version>1.13</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.13-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -48,12 +48,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.11</version>
+            <version>1.13</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.11</version>
+            <version>1.13</version>
             <scope>provided</scope>
         </dependency>
 
@@ -132,18 +132,19 @@
                             tika-parsers;inline=true,
                             commons-compress, xz, commons-codec, commons-csv,
                             commons-io, commons-exec, junrar, commons-logging,
-                            pdfbox,fontbox,jempbox,bcmail-jdk15on,bcprov-jdk15on,bcpkix-jdk15on,
+                            pdfbox,pdfbox-tools,pdfbox-debugger,fontbox,jempbox,bcmail-jdk15on,bcprov-jdk15on,bcpkix-jdk15on,
                             poi,poi-scratchpad,poi-ooxml,poi-ooxml-schemas,
+                            curvesapi,
                             xmlbeans,
                             jackcess,
-                            commons-lang,              
+                            commons-lang,
                             tagsoup,
                             asm,
                             juniversalchardet,
                             vorbis-java-core, vorbis-java-tika,
-                            isoparser, aspectjrt,
+                            isoparser,
                             metadata-extractor, xmpcore, json-simple,
-                            boilerpipe, rome, opennlp-tools, opennlp-maxent,
+                            boilerpipe, rome, rome-utils, opennlp-tools, opennlp-maxent,
                             geoapi, sis-metadata, sis-netcdf, sis-utility,
                             sis-storage, apache-mime4j-core, apache-mime4j-dom,
                             jsr-275, jhighlight, java-libpst, jwnl,
@@ -204,9 +205,6 @@
                             javax.servlet;resolution:=optional,
                             javax.servlet.http;resolution:=optional,
                             javax.measure.converter;resolution:=optional,
-                            javax.xml.stream;version="[1.0,2)";resolution:=optional,
-                            javax.xml.stream.events;version="[1.0,2)";resolution:=optional,
-                            javax.xml.stream.util;version="[1.0,2)";resolution:=optional,
                             javax.ws.rs.core;resolution:=optional,
                             net.sf.ehcache;resolution:=optional,
                             nu.xom;resolution:=optional,
@@ -268,7 +266,9 @@
                             org.jdom.output;resolution:=optional,
                             org.jdom2;resolution:=optional,
                             org.jdom2.input;resolution:=optional,
+                            org.jdom2.input.sax;resolution:=optional,
                             org.jdom2.output;resolution:=optional,
+                            org.jdom2.filter;resolution:=optional,
                             org.json.simple;resolution:=optional,
                             org.json;resolution:=optional,
                             org.openxmlformats.schemas.officeDocument.x2006.math;resolution:=optional,
@@ -284,9 +284,8 @@
                             org.xml.sax.ext;resolution:=optional,
                             org.xml.sax.helpers;resolution:=optional,
                             org.xmlpull.v1;resolution:=optional,
-                            schemasMicrosoftComOfficePowerpoint;resolution:=optional,
-                            schemasMicrosoftComOfficeWord;resolution:=optional,
-                            sun.misc;resolution:=optional,
+                            com.microsoft.schemas.office.powerpoint;resolution:=optional,
+                            com.microsoft.schemas.office.word;resolution:=optional,              sun.misc;resolution:=optional,
                             ucar.units;resolution:=optional,
                             ucar.httpservices;resolution:=optional,
                             ucar.nc2.util;resolution:=optional,
@@ -317,6 +316,7 @@
                             ucar.unidata.io;resolution:=optional,
                             ucar.unidata.util;resolution:=optional,
                             com.jmatio.io;resolution:=optional,
+                            com.google.gson;resolution:=optional,
                             visad;resolution:=optional,
                             visad.data;resolution:=optional,
                             visad.data.vis5d;resolution:=optional,
@@ -352,6 +352,7 @@
                             com.google.common.base;resolution:=optional,
                             com.google.common.math;resolution:=optional,
                             org.apache.http;resolution:=optional,
+                            org.apache.http.client.utils;resolution:=optional,
                             org.joda.time;resolution:=optional,
                             org.joda.time.chrono;resolution:=optional,
                             org.joda.time.field;resolution:=optional,
@@ -418,60 +419,47 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptor>test-bundles.xml</descriptor>
+                            <finalName>test</finalName>
+                            <attach>false</attach>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <org.ops4j.pax.logging.DefaultServiceLog.level>
+                            WARN
+                        </org.ops4j.pax.logging.DefaultServiceLog.level>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>java6</id>
-            <activation>
-                <jdk>[1.6,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <configuration>
-                                    <descriptor>test-bundles.xml</descriptor>
-                                    <finalName>test</finalName>
-                                    <attach>false</attach>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.10</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <org.ops4j.pax.logging.DefaultServiceLog.level>
-                                    WARN
-                                </org.ops4j.pax.logging.DefaultServiceLog.level>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <organization>
         <name>The Apache Software Founation</name>
