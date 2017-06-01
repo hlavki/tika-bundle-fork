@@ -473,14 +473,12 @@
     </scm>
     <distributionManagement>
         <repository>
-            <id>datalan-releases</id>
-            <name>Datalan's distribution repository</name>
-            <url>http://maven.datalan.sk/content/repositories/releases</url>
+            <id>xit-releases</id>
+            <url>https://repository.xit.camp/repository/maven-releases</url>
         </repository>
         <snapshotRepository>
-            <id>datalan-snapshots</id>
-            <name>Datalan's snapshots repository</name>
-            <url>http://maven.datalan.sk/content/repositories/snapshots</url>
+            <id>xit-snapshots</id>
+            <url>https://repository.xit.camp/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <issueManagement>
