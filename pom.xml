@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.11.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -167,6 +167,7 @@
                             *,
                             org.apache.tika,
                             org.apache.tika.config,
+                            org.apache.tika.concurrent,
                             org.apache.tika.detect,
                             org.apache.tika.embedder,
                             org.apache.tika.exception,
@@ -411,15 +412,15 @@
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>2.5.3</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.6.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -451,7 +452,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.10</version>
+                        <version>2.20</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -487,12 +488,12 @@
         <repository>
             <id>datalan-releases</id>
             <name>Datalan's distribution repository</name>
-            <url>http://maven.datalan.sk/content/repositories/releases</url>
+            <url>http://repository.datalan.sk/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>datalan-snapshots</id>
             <name>Datalan's snapshots repository</name>
-            <url>http://maven.datalan.sk/content/repositories/snapshots</url>
+            <url>http://repository.datalan.sk/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <issueManagement>
