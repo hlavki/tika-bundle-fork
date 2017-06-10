@@ -172,6 +172,7 @@
                             org.apache.tika,
                             org.apache.tika.concurrent,
                             org.apache.tika.config,
+                            org.apache.tika.concurrent,
                             org.apache.tika.detect,
                             org.apache.tika.embedder,
                             org.apache.tika.exception,
