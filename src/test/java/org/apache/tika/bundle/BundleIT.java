@@ -16,7 +16,6 @@
  */
 package org.apache.tika.bundle;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -67,7 +66,9 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.ops4j.pax.exam.util.PathUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.wiring.BundleWiring;
 import org.xml.sax.ContentHandler;
 
 @RunWith(PaxExam.class)
@@ -166,8 +167,7 @@ public class BundleIT {
         MediaType type = contentTypeDetector.detect(stream, metadata);
         assertEquals(type.toString(), "text/html");
         metadata.add(Metadata.CONTENT_TYPE, type.toString());
-        ParseContext parseCtx = new ParseContext();
-        parser.parse(stream, contentHandler, metadata, parseCtx);
+        parser.parse(stream, contentHandler, metadata, getParseContext());
         writer.flush();
         String content = writer.toString();
         assertTrue(content.length() > 0);
@@ -363,7 +363,7 @@ public class BundleIT {
         ParseContext parseCtx = new ParseContext();
         parseCtx.set(Detector.class, contentTypeDetector);
         parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
-        parseCtx.set(CompositeParser.class, (CompositeParser) defaultParser);
+        parseCtx.set(Parser.class, defaultParser);
         return parseCtx;
     }
 }
