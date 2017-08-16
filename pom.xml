@@ -41,14 +41,22 @@
     <url>http://tika.apache.org/</url>
 
     <properties>
-        <pax.exam.version>4.4.0</pax.exam.version>
+        <pax.exam.version>4.11.0</pax.exam.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>xit-ext-releases</id>
+            <name>xIT external releases</name>
+            <url>https://repository.xit.camp/repository/maven-ext-releases/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.16</version>
+            <version>1.16.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
@@ -77,7 +85,7 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-            <version>4.6.0</version>
+            <version>5.6.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -89,7 +97,7 @@
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-aether</artifactId>
-            <version>2.3.0</version>
+            <version>2.4.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -106,7 +114,7 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>5.0.0</version>
+            <version>6.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -130,7 +138,7 @@
                         </Bundle-Activator>
                         <Embed-Dependency>
                             tika-parsers;inline=true,
-                            commons-compress, xz, commons-codec, commons-csv,
+                            commons-compress, xz, commons-codec, commons-csv, commons-logging,
                             commons-io, commons-exec, commons-collections4, junrar,
                             pdfbox,pdfbox-tools,pdfbox-debugger,fontbox,jempbox,bcmail-jdk15on,bcprov-jdk15on,bcpkix-jdk15on,
                             poi,poi-scratchpad,poi-ooxml,poi-ooxml-schemas,
@@ -173,7 +181,7 @@
                             !org.apache.spark.sql.*,
                             *,
                             org.slf4j.event, org.slf4j.spi,
-                                org.apache.tika,
+                            org.apache.tika,
                             org.apache.tika.concurrent,
                             org.apache.tika.config,
                             org.apache.tika.detect,
@@ -193,6 +201,8 @@
                             org.apache.tika.sax,
                             org.apache.tika.sax.xpath,
                             org.apache.tika.utils,
+                            org.apache.avalon.framework.logger;resolution:=optional,
+                            org.apache.log;resolution:=optional,
                             android.util;resolution:=optional,
                             com.adobe.xmp;resolution:=optional,
                             com.adobe.xmp.properties;resolution:=optional,
@@ -389,13 +399,11 @@
                             org.apache.http.params;resolution:=optional,
                             org.apache.http.protocol;resolution:=optional,
                             org.apache.http.util;resolution:=optional,
-                            org.apache.commons.logging;resolution:=optional,
-                            org.apache.log4j;resolution:=optional
+                            org.apache.log4j;resolution:=optional,
                         </Import-Package>
                         <DynamicImport-Package>
-                            org.slf4j.impl, org.slf4j.bridge,
-                            org.apache.log4j, org.apache.log4j.*,
-                            org.apache.commons.logging, org.apache.commons.logging.*
+                            org.slf4j.impl;resolution:=optional, org.slf4j.bridge;resolution:=optional,
+                            org.apache.log4j.*;resolution:=optional
                         </DynamicImport-Package>
                     </instructions>
                 </configuration>

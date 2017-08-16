@@ -40,7 +40,6 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.fork.ForkParser;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
-import org.apache.tika.mime.MimeTypes;
 import org.apache.tika.parser.CompositeParser;
 import org.apache.tika.parser.DefaultParser;
 import org.apache.tika.parser.ParseContext;
@@ -66,9 +65,7 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.ops4j.pax.exam.util.PathUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.osgi.framework.wiring.BundleWiring;
 import org.xml.sax.ContentHandler;
 
 @RunWith(PaxExam.class)
@@ -84,8 +81,8 @@ public class BundleIT {
     @Inject
     private BundleContext bc;
 
-    private String log4jConfigPath = "file:" + PathUtils.getBaseDir() + "/src/test/resources/log4j.properties";
-    private String testBundlesPath = "file:" + PathUtils.getBaseDir() + "/target/test-bundles/";
+    private final String log4jConfigPath = "file:" + PathUtils.getBaseDir() + "/src/test/resources/log4j.properties";
+    private final String testBundlesPath = "file:" + PathUtils.getBaseDir() + "/target/test-bundles/";
 
 
     @Configuration
@@ -124,7 +121,6 @@ public class BundleIT {
 
     @Test
     public void testManifestNoJUnit() throws Exception {
-        File TARGET = new File("target");
         File base = new File(TARGET, "test-bundles");
         File tikaBundle = new File(base, "tika-bundle-fork.jar");
 
@@ -208,7 +204,7 @@ public class BundleIT {
 
         // Get the raw detectors list from the traditional service loading mechanism
         DefaultDetector detector = new DefaultDetector();
-        Set<String> rawDetectors = new HashSet<String>();
+        Set<String> rawDetectors = new HashSet<>();
         for (Detector d : detector.getDetectors()) {
             if (d instanceof DefaultDetector) {
                 for (Detector dChild : ((DefaultDetector) d).getDetectors()) {
@@ -341,6 +337,24 @@ public class BundleIT {
 
 
     @Test
+    public void testForkParserDocx() throws Exception {
+        InputStream in = BundleIT.class.getResourceAsStream("/test-documents/content.docx");
+        InputStream stream = new BufferedInputStream(in);
+        Writer writer = new StringWriter();
+        ContentHandler contentHandler = new BodyContentHandler(writer);
+        Metadata metadata = new Metadata();
+        MediaType type = contentTypeDetector.detect(stream, metadata);
+        assertEquals(type.toString(), "application/x-tika-ooxml");
+        metadata.add(Metadata.CONTENT_TYPE, type.toString());
+        ForkParser parser = new ForkParser(Activator.class.getClassLoader(), defaultParser);
+        parser.parse(stream, contentHandler, metadata, getParseContext());
+        writer.flush();
+        String content = writer.toString();
+        assertTrue(content.length() > 0);
+    }
+
+
+    @Test
     public void testForkParserWord2() throws Exception {
         InputStream in = BundleIT.class.getResourceAsStream("/test-documents/dotaznik_dba_nova_schema_Registratura_TriediaciModul.doc");
         InputStream stream = new BufferedInputStream(in);
@@ -362,7 +376,7 @@ public class BundleIT {
     private ParseContext getParseContext() {
         ParseContext parseCtx = new ParseContext();
         parseCtx.set(Detector.class, contentTypeDetector);
-        parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
+//        parseCtx.set(MimeTypes.class, MimeTypes.getDefaultMimeTypes(Activator.class.getClassLoader()));
         parseCtx.set(Parser.class, defaultParser);
         return parseCtx;
     }
