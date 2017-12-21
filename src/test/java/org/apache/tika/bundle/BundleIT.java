@@ -57,7 +57,6 @@ import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.options;
-import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -88,16 +87,14 @@ public class BundleIT {
     @Configuration
     public Option[] configuration() throws IOException, URISyntaxException {
         return options(
-                bundle(testBundlesPath + "tika-core.jar"),
-                bundle(testBundlesPath + "tika-bundle-fork.jar"),
-                junitBundles(),
-                mavenBundle("org.slf4j", "slf4j-api", "1.7.24"),
-                mavenBundle("org.slf4j", "slf4j-log4j12", "1.7.24").noStart(),
-                mavenBundle("org.slf4j", "jcl-over-slf4j", "1.7.24"),
-                mavenBundle("org.slf4j", "jul-to-slf4j", "1.7.24"),
-                mavenBundle("log4j", "log4j", "1.2.17"),
-                systemProperty("log4j.configuration").value(log4jConfigPath)
-        );
+            bundle(testBundlesPath + "tika-core.jar"),
+            mavenBundle("org.slf4j", "slf4j-api", "1.7.24"),
+            mavenBundle("org.slf4j", "slf4j-log4j12", "1.7.24").noStart(),
+            mavenBundle("org.slf4j", "jcl-over-slf4j", "1.7.24"),
+            mavenBundle("org.slf4j", "jul-to-slf4j", "1.7.24"),
+            mavenBundle("log4j", "log4j", "1.2.17"),
+            junitBundles(),
+            bundle(testBundlesPath + "tika-bundle-fork.jar"));
     }
 
 
@@ -200,7 +197,7 @@ public class BundleIT {
 
         // Check we did get a few, just in case...
         assertTrue("Should have several Detector names, found " + osgiDetectors.size(),
-                osgiDetectors.size() > 3);
+            osgiDetectors.size() > 3);
 
         // Get the raw detectors list from the traditional service loading mechanism
         DefaultDetector detector = new DefaultDetector();
@@ -231,7 +228,7 @@ public class BundleIT {
 
         // Check we did get a few, just in case...
         assertTrue("Should have lots Parser names, found " + osgiParsers.size(),
-                osgiParsers.size() > 15);
+            osgiParsers.size() > 15);
 
         // Get the raw parsers list from the traditional service loading mechanism
         CompositeParser parser = (CompositeParser) defaultParser;
@@ -273,7 +270,7 @@ public class BundleIT {
         context.set(Parser.class, parser);
 
         try (InputStream stream
-                = new FileInputStream("src/test/resources/test-documents.zip")) {
+            = new FileInputStream("src/test/resources/test-documents.zip")) {
             parser.parse(stream, handler, new Metadata(), context);
         }
 

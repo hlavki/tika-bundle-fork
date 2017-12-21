@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.16</version>
+        <version>1.17</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
@@ -56,13 +56,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.16.1</version>
+            <version>1.17</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.16</version>
-            <scope>provided</scope>
+            <version>1.17</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -97,7 +96,7 @@
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-aether</artifactId>
-            <version>2.4.8</version>
+            <version>2.5.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -136,29 +135,63 @@
                         <Bundle-Activator>
                             org.apache.tika.parser.internal.Activator
                         </Bundle-Activator>
-                        <Embed-Dependency>
-                            tika-parsers;inline=true,
-                            commons-compress, xz, commons-codec, commons-csv, commons-logging,
-                            commons-io, commons-exec, commons-collections4, junrar,
-                            pdfbox,pdfbox-tools,pdfbox-debugger,fontbox,jempbox,bcmail-jdk15on,bcprov-jdk15on,bcpkix-jdk15on,
-                            poi,poi-scratchpad,poi-ooxml,poi-ooxml-schemas,
-                            curvesapi,
-                            xmlbeans,
-                            jackcess,
-                            commons-lang,
-                            tagsoup,
-                            asm,
-                            juniversalchardet,
-                            vorbis-java-core, vorbis-java-tika,
-                            isoparser,
-                            metadata-extractor, xmpcore, json-simple,
-                            boilerpipe, rome, rome-utils, sentiment-analysis-parser;type=jar;inline=false, opennlp-tools,
-                            geoapi, sis-metadata, sis-netcdf, sis-utility,
-                            sis-storage, apache-mime4j-core, apache-mime4j-dom,
-                            jsr-275, jhighlight, java-libpst,
-                            netcdf4, grib, cdm, httpservices, jcip-annotations,
-                            jmatio, guava, age-predictor-api;type=jar;inline=false
-                        </Embed-Dependency>
+                        <Embed-Dependency>*;scope=compile;artifactId=tika-parsers|
+                            commons-compress|
+                            xz|
+                            commons-codec|
+                            commons-logging|
+                            commons-csv|
+                            commons-io|
+                            commons-exec|
+                            commons-collections4|
+                            junrar|
+                            pdfbox|
+                            pdfbox-tools|
+                            pdfbox-debugger|
+                            fontbox|
+                            jempbox|
+                            bcmail-jdk15on|
+                            bcprov-jdk15on|
+                            bcpkix-jdk15on|
+                            poi|poi-scratchpad|
+                            poi-ooxml|
+                            poi-ooxml-schemas|
+                            curvesapi|
+                            xmlbeans|
+                            jackcess|
+                            commons-lang|
+                            tagsoup|
+                            asm|
+                            juniversalchardet|
+                            vorbis-java-core|
+                            vorbis-java-tika|
+                            isoparser|
+                            metadata-extractor|
+                            xmpcore|
+                            json-simple|
+                            boilerpipe|
+                            rome|
+                            rome-utils|
+                            sentiment-analysis-parser|
+                            opennlp-tools|
+                            geoapi|
+                            sis-metadata|
+                            sis-netcdf|
+                            sis-utility|
+                            sis-storage|
+                            apache-mime4j-core|
+                            apache-mime4j-dom|
+                            jsr-275|
+                            jhighlight|
+                            java-libpst|
+                            netcdf4|
+                            grib|
+                            cdm|
+                            httpservices|
+                            jcip-annotations|
+                            jmatio|
+                            guava|
+                            age-predictor-api</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Bundle-DocURL>${project.url}</Bundle-DocURL>
                         <Export-Package>
@@ -179,8 +212,6 @@
                             !org.apache.spark.ml.*,
                             !org.apache.spark.mllib.*,
                             !org.apache.spark.sql.*,
-                            *,
-                            org.slf4j.event, org.slf4j.spi,
                             org.apache.tika,
                             org.apache.tika.concurrent,
                             org.apache.tika.config,
@@ -201,8 +232,6 @@
                             org.apache.tika.sax,
                             org.apache.tika.sax.xpath,
                             org.apache.tika.utils,
-                            org.apache.avalon.framework.logger;resolution:=optional,
-                            org.apache.log;resolution:=optional,
                             android.util;resolution:=optional,
                             com.adobe.xmp;resolution:=optional,
                             com.adobe.xmp.properties;resolution:=optional,
@@ -251,6 +280,7 @@
                             org.apache.commons.vfs2.util;resolution:=optional,
                             org.apache.crimson.jaxp;resolution:=optional,
                             org.apache.jcp.xml.dsig.internal.dom;resolution:=optional,
+                            org.apache.pdfbox.debugger;resolution:=optional,
                             org.apache.sis;resolution:=optional,
                             org.apache.sis.distance;resolution:=optional,
                             org.apache.sis.geometry;resolution:=optional,
@@ -301,6 +331,7 @@
                             org.quartz;resolution:=optional,
                             org.quartz.impl;resolution:=optional,
                             org.slf4j;resolution:=optional,
+                            org.slf4j.event;resolution:=optional,
                             org.slf4j.helpers;resolution:=optional,
                             org.sqlite;resolution:=optional,
                             org.w3c.dom;resolution:=optional,
@@ -400,11 +431,10 @@
                             org.apache.http.protocol;resolution:=optional,
                             org.apache.http.util;resolution:=optional,
                             org.apache.log4j;resolution:=optional,
+                            org.apache.avalon.framework.logger;resolution:=optional,
+                            org.apache.log;resolution:=optional,
+                            *
                         </Import-Package>
-                        <DynamicImport-Package>
-                            org.slf4j.impl;resolution:=optional, org.slf4j.bridge;resolution:=optional,
-                            org.apache.log4j.*;resolution:=optional
-                        </DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -442,10 +472,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-            </plugin>
+
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
@@ -462,6 +489,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.10</version>
@@ -473,6 +501,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <org.ops4j.pax.logging.DefaultServiceLog.level>
+                            INFO
+                        </org.ops4j.pax.logging.DefaultServiceLog.level>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -481,22 +516,6 @@
         <name>The Apache Software Founation</name>
         <url>http://www.apache.org</url>
     </organization>
-    <scm>
-        <url>https://github.com/hlavki/tika-bundle-fork</url>
-        <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
-        <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
-    <distributionManagement>
-        <repository>
-            <id>xit-releases</id>
-            <url>https://repository.xit.camp/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>xit-snapshots</id>
-            <url>https://repository.xit.camp/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
     <issueManagement>
         <system>JIRA</system>
         <url>https://issues.apache.org/jira/browse/TIKA</url>
