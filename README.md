@@ -3,9 +3,9 @@ Use this bundle only when you need to use ForkParser in OSGi environment.
 As ForkParser doesn't work with official bundle [tika-bundle](http://repo1.maven.org/maven2/org/apache/tika/tika-bundle/), so [DefaultParser](http://tika.apache.org/1.13/api/org/apache/tika/parser/DefaultParser.html) doesn't work with this bundle.
 
 ### Example usage in [Apache Karaf](http://karaf.apache.org/)
-    <feature name="apache-tika" version="1.13">
-        <bundle>mvn:org.apache.tika/tika-core/1.13</bundle>
-        <bundle>mvn:org.apache.tika/tika-bundle-fork/1.13.0</bundle>
+    <feature name="apache-tika" version="1.17">
+        <bundle>mvn:org.apache.tika/tika-core/1.17</bundle>
+        <bundle>mvn:org.apache.tika/tika-bundle-fork/1.17.0</bundle>
     </feature>
 
 ### Maven repository
