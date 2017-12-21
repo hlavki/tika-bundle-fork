@@ -512,6 +512,23 @@
         </plugins>
     </build>
 
+    <scm>
+        <url>https://github.com/hlavki/tika-bundle-fork</url>
+        <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
+        <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>xit-releases</id>
+            <url>https://repository.xit.camp/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>xit-snapshots</id>
+            <url>https://repository.xit.camp/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <organization>
         <name>The Apache Software Founation</name>
         <url>http://www.apache.org</url>
