@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parent</artifactId>
-        <version>1.17</version>
+        <version>1.18</version>
     </parent>
 
     <groupId>org.apache.tika</groupId>
@@ -56,12 +56,12 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.17</version>
+            <version>1.18</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>1.17</version>
+            <version>1.18</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -79,6 +79,28 @@
             <groupId>org.ops4j.pax.exam</groupId>
             <artifactId>pax-exam-container-native</artifactId>
             <version>${pax.exam.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ops4j.base</groupId>
+                    <artifactId>ops4j-base-util-property</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.ops4j.base</groupId>
+                    <artifactId>ops4j-base-lang</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.base</groupId>
+            <artifactId>ops4j-base-util-property</artifactId>
+            <version>1.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.base</groupId>
+            <artifactId>ops4j-base-lang</artifactId>
+            <version>1.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,11 +122,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
@@ -117,9 +134,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -179,9 +196,9 @@
                             sis-netcdf|
                             sis-utility|
                             sis-storage|
+                            unit-api|
                             apache-mime4j-core|
                             apache-mime4j-dom|
-                            jsr-275|
                             jhighlight|
                             java-libpst|
                             netcdf4|
@@ -235,6 +252,8 @@
                             android.util;resolution:=optional,
                             com.adobe.xmp;resolution:=optional,
                             com.adobe.xmp.properties;resolution:=optional,
+                            com.github.luben.zstd;resolution:=optional,
+                            com.github.openjson;resolution:=optional,
                             com.google.protobuf;resolution:=optional,
                             com.ibm.icu.text;resolution:=optional,
                             com.sleepycat.je;resolution:=optional,
@@ -283,7 +302,12 @@
                             org.apache.pdfbox.debugger;resolution:=optional,
                             org.apache.sis;resolution:=optional,
                             org.apache.sis.distance;resolution:=optional,
+                            org.apache.sis.feature;resolution:=optional,
                             org.apache.sis.geometry;resolution:=optional,
+                            org.apache.sis.internal.feature;resolution:=optional,
+                            org.apache.sis.internal.referencing;resolution:=optional,
+                            org.apache.sis.parameter;resolution:=optional,
+                            org.apache.sis.referencing;resolution:=optional,
                             org.apache.tools.ant;resolution:=optional,
                             org.apache.tools.ant.taskdefs;resolution:=optional,
                             org.apache.tools.ant.types;resolution:=optional,
@@ -324,7 +348,6 @@
                             org.jdom2.output;resolution:=optional,
                             org.jdom2.filter;resolution:=optional,
                             org.json.simple;resolution:=optional,
-                            org.json;resolution:=optional,
                             org.openxmlformats.schemas.officeDocument.x2006.math;resolution:=optional,
                             org.openxmlformats.schemas.schemaLibrary.x2006.main;resolution:=optional,
                             org.osgi.framework;resolution:=optional,
@@ -333,6 +356,7 @@
                             org.slf4j;resolution:=optional,
                             org.slf4j.event;resolution:=optional,
                             org.slf4j.helpers;resolution:=optional,
+                            org.slf4j.spi;resolution:=optional,
                             org.sqlite;resolution:=optional,
                             org.w3c.dom;resolution:=optional,
                             org.relaxng.datatype;resolution:=optional,
@@ -430,9 +454,9 @@
                             org.apache.http.params;resolution:=optional,
                             org.apache.http.protocol;resolution:=optional,
                             org.apache.http.util;resolution:=optional,
+                            org.apache.commons.logging;resolution:=optional,
+                            org.apache.commons.logging.impl;resolution:=optional,
                             org.apache.log4j;resolution:=optional,
-                            org.apache.avalon.framework.logger;resolution:=optional,
-                            org.apache.log;resolution:=optional,
                             *
                         </Import-Package>
                     </instructions>
