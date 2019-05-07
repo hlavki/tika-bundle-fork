@@ -30,7 +30,7 @@
 
     <groupId>org.apache.tika</groupId>
     <artifactId>tika-bundle-fork</artifactId>
-    <version>1.20-SNAPSHOT</version>
+    <version>1.20</version>
     <packaging>bundle</packaging>
     <description>
         OSGi bundle that contains the tika-parsers component and all its
@@ -568,7 +568,7 @@
         <url>https://github.com/hlavki/tika-bundle-fork</url>
         <connection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</connection>
         <developerConnection>scm:git:https://github.com/hlavki/tika-bundle-fork.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>tika-bundle-fork-1.20</tag>
     </scm>
     <distributionManagement>
         <repository>
